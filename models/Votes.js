@@ -4,7 +4,19 @@ const VotesSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   },
-  votes: {
+  candidate: {
+    type: String,
+    required: true,
+  },
+  district: {
+    type: String,
+    required: true,
+  },
+  political_affiliation: {
+    type: String,
+    required: true,
+  },
+  reason: {
     type: String,
     required: true,
   },
@@ -13,3 +25,5 @@ const VotesSchema = mongoose.Schema({
     default: Date.now,
   },
 });
+
+module.exports = mongoose.model("votes", VotesSchema);

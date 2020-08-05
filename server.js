@@ -15,5 +15,9 @@ connectDB();
 app.use(bodyParser.json({ extended: false }));
 app.use(bodyParser.urlencoded());
 // Routes
+app.use("/api/users", require("./routes/users"));
+app.use("/api/auth", require("./routes/auth"));
+app.use("/api/votes", require("./routes/votes"));
+app.use("/api/candidates", require("./routes/candidates"));
 
-app.listen(PORT, () => console.log(PORT));
+app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`));

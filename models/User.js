@@ -13,7 +13,19 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  city: {
+    type: String,
+    required: true,
+  },
+  state: {
+    type: String,
+    required: true,
+  },
   DOB: {
+    type: String,
+    required: true,
+  },
+  political_affiliation: {
     type: String,
     required: true,
   },

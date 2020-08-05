@@ -1,0 +1,31 @@
+User
+    /api/User
+        (POST) => New User
+            "name" -> String
+            "email" -> String
+            "password" -> String
+            "city" -> String
+            "state" -> String
+            "DOB" -> Date
+            "political_affiliation" -> String
+            "sex" -> Bool
+            "race" -> String
+        (GET) => Get User 
+            "id" -> String
+        (POST) => Login User
+            "email" -> String
+            "password" -> String
+        (DELETE) => Delete User
+            "email" -> String
+Votes
+    /api/Votes
+        (POST) => Make Vote
+            "name" -> String
+            "divisionID" -> String
+            "userID"-> String
+        
+        (GET) => Get User Votes
+            "userID" -> String
+        (GET) => Get Candidate Votes
+            "divisionID" ->
+        
