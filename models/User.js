@@ -13,11 +13,7 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  city: {
-    type: String,
-    required: true,
-  },
-  state: {
+  address: {
     type: String,
     required: true,
   },
@@ -25,7 +21,7 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  political_affiliation: {
+  politicalAffiliation: {
     type: String,
     required: true,
   },
@@ -42,5 +38,10 @@ const UserSchema = mongoose.Schema({
     default: Date.now,
   },
 });
+
+UserSchema.methods.createAddress = function (x, y, z, a) {
+  this.address = `${x} ${y}, ${z} ${a}`;
+  return this.address;
+};
 
 module.exports = mongoose.model("user", UserSchema);

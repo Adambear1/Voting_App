@@ -18,6 +18,6 @@ app.use(bodyParser.urlencoded());
 app.use("/api/users", require("./routes/users"));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/votes", require("./routes/votes"));
-app.use("/api/candidates", require("./routes/candidates"));
+app.use("/api/data", require("./routes/data"));
 
 app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`));

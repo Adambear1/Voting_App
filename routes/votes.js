@@ -33,9 +33,14 @@ router.post(
   ],
   async ({ body }, res) => {
     try {
+      const user = await Vote.find({
+        _id: body.userID,
+        position: body.position,
+      });
+      console.log(user);
       await Vote.create({
-        name: body.name,
-        divisionID: body.divisionID,
+        official: body.official,
+        position: body.position,
         userID: body.userID,
       })
         .then((data) => res.json(data))
