@@ -1,12 +1,17 @@
+require("dotenv").config();
 const express = require("express");
+const User = require("../models/User");
+const Votes = require("../models/Votes");
 const router = express.Router();
-const { check } = require("express-validator");
-const Vote = require("../models/Votes");
+const Cryptr = require("cryptr");
+const cryptr = new Cryptr(process.env.CRYPTR);
+const { check } = require("express-validator/check");
+const { hashVote } = require("../utils/votes");
 
 // Get Users Vote
 router.get("/user", async ({ body }, res) => {
   try {
-    const data = await Vote.findById({ userID: body._id });
+    const data = await Votes.findById({ userID: body._id });
     res.json(data);
   } catch (err) {
     console.error(err);
@@ -16,38 +21,48 @@ router.get("/user", async ({ body }, res) => {
 // Get Users Vote
 router.get("/candidates", async ({ body }, res) => {
   try {
-    const data = await Vote.findById({ userID: body._id });
+    const data = await Votes.findById({ userID: body._id });
     res.json(data);
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");
   }
 });
-//
+//Make Vote
 router.post(
   "/",
   [
-    check("name", "Name is Required").not().isEmpty(),
-    check("divisionID", "DivisionID is Required").not().isEmpty(),
-    check("userID", "UserID is Required").not().isEmpty(),
+    check("_id", "User Not Found").not().isEmpty(),
+    check("official", "Candidate Name Not Found").not().isEmpty(),
+    check("divisionID", "Division Name Not Found").not().isEmpty(),
   ],
   async ({ body }, res) => {
-    try {
-      const user = await Vote.find({
-        _id: body.userID,
-        position: body.position,
+    Votes.find({}, (err, data) => {
+      if (err) throw err;
+      // for (let i = 0; i < data.length; i++) {
+      //   console.log(data[1]["vote"]);
+      //   i++;
+      // }
+      data.filter((item) => {
+        console.log(item["vote"].length);
+        let candidate = item["vote"].substr(0, 216);
+        let position = item["vote"].substr(219, 435);
+        let user = item["vote"].substr(438, item["vote"].length - 1);
+
+        console.log(cryptr.decrypt(candidate));
+        console.log(cryptr.decrypt(position));
+        console.log(cryptr.decrypt(user));
       });
-      console.log(user);
-      await Vote.create({
-        official: body.official,
-        position: body.position,
-        userID: body.userID,
-      })
-        .then((data) => res.json(data))
-        .catch((err) => res.status(404).json({ msg: err }));
-    } catch (err) {
-      res.status(404).json({ msg: err });
-    }
+    });
+    var str = [];
+    await hashVote(body, str);
+    Votes.create({ vote: str.toString() }, (err, data) => {
+      if (err) {
+        res.status(400).json({ msg: err });
+      } else {
+        res.json(data);
+      }
+    });
   }
 );
 

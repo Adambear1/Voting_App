@@ -22,7 +22,7 @@ Votes
         (POST) => Make Vote
             "name" -> String
             "divisionID" -> String
-            "userID"-> String
+            "_id"-> String
         
         (GET) => Get User Votes
             "userID" -> String
